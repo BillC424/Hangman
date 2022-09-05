@@ -1,16 +1,38 @@
-f = File.open('dictionary.txt', 'r')
-game_words = []
+class Hangman
+  attr_accessor :secret_word
 
-f.each do |word|
-  word_length = word.length
-  case word_length 
-  when 0..4, 13.. 
-    nil
-  else
-    game_words.push(word)
-  end
+  def initialize
+    @alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+    @secret_word = 
+      game_words_array = []
+      f = File.open('dictionary.txt', 'r')
+      f.each do |word|
+        word_length = word.length
+        case word_length 
+        when 0..4, 13.. 
+          nil
+        else
+          game_words_array.push(word.chomp)
+        end
+      end
+      @secret_word = game_words_array.sample
+  end  
+  
+
+ # puts "You have #{} guesses left!"
+ # puts 'You win!'
+ # puts 'You lose!'
+
+ # puts @alphabet.join(', ')
 end
 
-secret_word = game_words.sample
+class HumanPlayer
 
-puts secret_word
+
+end
+
+game = Hangman.new
+
+p game.secret_word
+
+
