@@ -52,14 +52,24 @@ class HumanPlayer
 
   public
   def play_round
-    guess = gets.chomp
-    until @alphabet.include?(guess)
-      puts "#{guess} has already been chosen. Please pick a different letter."
+    guess = gets.chomp.downcase
+    guess = duplicate_letter_non_alphabet_check(guess)
+    @alphabet.delete(guess)
+    guess
+  end  
+
+
+  def duplicate_letter_non_alphabet_check(guess)
+    until ('a'..'z').include?(guess) 
+      puts "#{guess} is not a letter in the alphabet. Please pick a letter."
       guess = gets.chomp
     end
-    @alphabet.delete(guess)
-    guess.downcase
-  end  
+    until @alphabet.include?(guess)
+        puts "#{guess} has already been chosen. Please pick a different letter."
+        guess = gets.chomp
+    end
+    guess
+  end
 
 end
 
@@ -88,3 +98,4 @@ end
 end
 
 game = Game.new
+
