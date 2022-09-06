@@ -51,6 +51,7 @@ class HumanPlayer
   end
 
   public
+
   def play_round
     guess = gets.chomp.downcase
     guess = duplicate_letter_non_alphabet_check(guess)
@@ -80,13 +81,13 @@ attr_reader :remaining_rounds
 def initialize
 @computer = Computer.new
 @human_player = HumanPlayer.new
-@remaining_rounds = 8
+@remaining_rounds = 10
 self.play_game
 end
 
 def play_game
   until @remaining_rounds == 0 || @computer.game_won == 'yes'
-    puts "Guess the word! #{@computer.display_word}. You have #{@remaining_rounds} guesses left."
+    puts "Guess the word by picking a letter! #{@computer.display_word}. You have #{@remaining_rounds} guesses left."
     puts "Choose from these letters #{@human_player.alphabet.join(', ')}"
     @remaining_rounds = @remaining_rounds - 1
     guess = @human_player.play_round
