@@ -53,6 +53,10 @@ class HumanPlayer
   public
   def play_round
     guess = gets.chomp
+    until @alphabet.include?(guess)
+      puts "#{guess} has already been chosen. Please pick a different letter."
+      guess = gets.chomp
+    end
     @alphabet.delete(guess)
     guess.downcase
   end  
