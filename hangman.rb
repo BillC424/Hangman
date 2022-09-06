@@ -33,10 +33,12 @@ class Computer
     end
   end
 
-  def check_if_game_over
+  def check_if_game_over(remaining_rounds)
     if @display_word == @secret_word
       @game_won = 'yes'
       puts "You win! The secret word was #{@secret_word}. You get.... a brand new Hyundai Sonata! *plays Wheel of Fortune theme*"
+    elsif remaining_rounds == 0
+     puts "You lose. The secret word was #{@secret_word}."
     end
   end
   
@@ -59,6 +61,8 @@ end
 
 class Game
 
+attr_reader :remaining_rounds
+
 def initialize
 @computer = Computer.new
 @human_player = HumanPlayer.new
@@ -73,7 +77,7 @@ def play_game
     @remaining_rounds = @remaining_rounds - 1
     guess = @human_player.play_round
     @computer.check_word(guess)
-    @computer.check_if_game_over
+    @computer.check_if_game_over(@remaining_rounds)
   end  
 end
 
