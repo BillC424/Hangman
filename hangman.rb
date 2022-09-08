@@ -41,7 +41,7 @@ class Computer
     if @display_word == @secret_word
       @game_won = 'yes'
       puts "You win! The secret word was #{@secret_word}. You get.... a brand new Hyundai Sonata! *plays Wheel of Fortune theme*"
-    elsif @remaining_rounds == 0
+    elsif remaining_rounds == 0
      puts "You lose. The secret word was #{@secret_word}."
     end
   end
@@ -108,8 +108,7 @@ def play_game
     if guess != 'save'
       @remaining_rounds = @remaining_rounds - 1
     end
-    @computer.check_word(guess)  
-    p @remaining_rounds  
+    @computer.check_word(guess)   
     @computer.check_if_game_over(@remaining_rounds)
     save_game(guess)
   end  
