@@ -1,21 +1,20 @@
 --- !ruby/object:Game
 computer: !ruby/object:Computer
-  secret_word: singer
-  display_word: __ng__
+  secret_word: supposed
+  display_word: _______d
   game_won: ''
 human_player: !ruby/object:HumanPlayer
   alphabet:
+  - a
   - b
   - c
-  - d
   - e
   - f
-  - h
-  - i
-  - j
+  - g
   - k
   - l
   - m
+  - "n"
   - o
   - p
   - q
@@ -28,4 +27,4 @@ human_player: !ruby/object:HumanPlayer
   - x
   - "y"
   - z
-remaining_rounds: 2
+remaining_rounds: 1

@@ -35,14 +35,13 @@ class Computer
         @display_word = display_word_array.join
       end
     end
-    p @secret_word
   end
 
   def check_if_game_over(remaining_rounds)
     if @display_word == @secret_word
       @game_won = 'yes'
       puts "You win! The secret word was #{@secret_word}. You get.... a brand new Hyundai Sonata! *plays Wheel of Fortune theme*"
-    elsif remaining_rounds == 0
+    elsif @remaining_rounds == 0
      puts "You lose. The secret word was #{@secret_word}."
     end
   end
@@ -67,6 +66,9 @@ class HumanPlayer
 
 
   def duplicate_letter_non_alphabet_check(guess)
+    if guess == 'save' 
+     return guess
+    end
     until ('a'..'z').include?(guess) 
       puts "#{guess} is not a letter in the alphabet. Please pick a letter."
       guess = gets.chomp
@@ -88,43 +90,45 @@ attr_reader :remaining_rounds
 def initialize
 @computer = Computer.new
 @human_player = HumanPlayer.new
-@remaining_rounds = 5
+@remaining_rounds = 10
 self.play_game
 end
 
 def play_game
   until @remaining_rounds == 0 || @computer.game_won == 'yes'
-    if @remaining_rounds == 5
-      puts 'Enter yes if you want to open a saved game'
-      if gets.chomp.downcase == 'yes'
-        self.load_game
-      end
+    if @remaining_rounds == 10
+      puts 'Enter yes if you want to open a saved game. Press enter to start a new game.'
+      choice = gets.chomp.downcase
+      Game.load_game(choice)
+      break if choice == 'yes'
     end
-    puts 'Enter save if you want to save the game'
-    save = gets.chomp.downcase
-    if save == "save"
-        self.save_game
-    end
-    puts "Guess the word by picking a letter! #{@computer.display_word}. You have #{@remaining_rounds} guesses left."
+    puts "Guess the word by picking a letter! #{@computer.display_word}. If you want to save, enter save. You have #{@remaining_rounds} guesses left."
     puts "Choose from these letters #{@human_player.alphabet.join(', ')}"
-    @remaining_rounds = @remaining_rounds - 1
     guess = @human_player.play_round
-    @computer.check_word(guess)
+    if guess != 'save'
+      @remaining_rounds = @remaining_rounds - 1
+    end
+    @computer.check_word(guess)  
+    p @remaining_rounds  
     @computer.check_if_game_over(@remaining_rounds)
-    
+    save_game(guess)
   end  
 end
 
-def save_game
-  p yaml = YAML::dump(self)
-  p game_file = File.new("saved.yaml", "w")
-  p game_file.write(yaml)
+def save_game(player_input)
+  if player_input == 'save'
+    p yaml = YAML::dump(self)
+    p game_file = File.new("saved.yaml", "w")
+    p game_file.write(yaml)
+  end
 end
 
-def load_game
-  game_file = File.open("saved.yaml", "r")
-  yaml = game_file.read
-  YAML::load(yaml)
+def self.load_game(choice)
+  if choice == 'yes'
+    game_file = File.open("saved.yaml", "r")
+    game = YAML::safe_load(game_file.read, permitted_classes: [Game, Computer, HumanPlayer])
+    game.play_game
+  end
 end
 
 end
