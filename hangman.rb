@@ -90,10 +90,10 @@ class Game
   def play_game
     until @remaining_rounds.zero? || @computer.game_won == 'yes'
       if @remaining_rounds == 10
-        puts 'Enter yes if you want to open a saved game. Press enter to start a new game.'
+        puts 'Enter load if you want to open a saved game. Press enter to start a new game.'
         choice = gets.chomp.downcase
         Game.load_game(choice)
-        break if choice == 'yes'
+        break if choice == 'load'
       end
       puts "Guess the word by picking a letter! #{@computer.display_word}. If you want to save, enter save."
       puts "You have #{@remaining_rounds} guesses left."
@@ -115,7 +115,7 @@ class Game
   end
 
   def self.load_game(choice)
-    if choice == 'yes'
+    if choice == 'load'
       game_file = File.open('saved.yaml', 'r')
       game = YAML.safe_load(game_file.read, permitted_classes: [Game, Computer, HumanPlayer])
       game.play_game
