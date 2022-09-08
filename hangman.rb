@@ -116,9 +116,9 @@ end
 
 def save_game(player_input)
   if player_input == 'save'
-    p yaml = YAML::dump(self)
-    p game_file = File.new("saved.yaml", "w")
-    p game_file.write(yaml)
+    yaml = YAML::dump(self)
+    game_file = File.new("saved.yaml", "w")
+    game_file.write(yaml)
   end
 end
 
